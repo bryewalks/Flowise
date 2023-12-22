@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
+import { useIntl } from 'react-intl'
 
 // material-ui
 import { useTheme } from '@mui/material/styles'
@@ -14,11 +15,12 @@ import { IconCopy, IconChevronLeft } from '@tabler/icons'
 const MarketplaceCanvasHeader = ({ flowName, flowData, onChatflowCopy }) => {
     const theme = useTheme()
     const navigate = useNavigate()
+    const intl = useIntl()
 
     return (
         <>
             <Box>
-                <ButtonBase title='Back' sx={{ borderRadius: '50%' }}>
+                <ButtonBase title={intl.formatMessage({ id: 'back' })} sx={{ borderRadius: '50%' }}>
                     <Avatar
                         variant='rounded'
                         sx={{
@@ -56,11 +58,11 @@ const MarketplaceCanvasHeader = ({ flowName, flowData, onChatflowCopy }) => {
                 <StyledButton
                     color='secondary'
                     variant='contained'
-                    title='Use Chatflow'
+                    title={intl.formatMessage({ id: 'use.chatflow' })}
                     onClick={() => onChatflowCopy(flowData)}
                     startIcon={<IconCopy />}
                 >
-                    Use Template
+                    {intl.formatMessage({ id: 'use.template' })}
                 </StyledButton>
             </Box>
         </>

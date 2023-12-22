@@ -1,5 +1,6 @@
 // assets
 import { IconHierarchy, IconBuildingStore, IconKey, IconTool, IconLock, IconRobot } from '@tabler/icons'
+import { intl } from 'languages/utils/intl'
 
 // constant
 const icons = { IconHierarchy, IconBuildingStore, IconKey, IconTool, IconLock, IconRobot }
@@ -13,7 +14,7 @@ const dashboard = {
     children: [
         {
             id: 'chatflows',
-            title: 'Chatflows',
+            title: intl.formatMessage({ id: 'chatflows.dashboard' }),
             type: 'item',
             url: '/chatflows',
             icon: icons.IconHierarchy,
@@ -21,7 +22,7 @@ const dashboard = {
         },
         {
             id: 'marketplaces',
-            title: 'Marketplaces',
+            title: intl.formatMessage({ id: 'marketplaces.dashboard' }),
             type: 'item',
             url: '/marketplaces',
             icon: icons.IconBuildingStore,
@@ -29,7 +30,7 @@ const dashboard = {
         },
         {
             id: 'tools',
-            title: 'Tools',
+            title: intl.formatMessage({ id: 'tools.dashboard' }),
             type: 'item',
             url: '/tools',
             icon: icons.IconTool,
@@ -37,7 +38,7 @@ const dashboard = {
         },
         {
             id: 'assistants',
-            title: 'Assistants',
+            title: intl.formatMessage({ id: 'assistants.dashboard' }),
             type: 'item',
             url: '/assistants',
             icon: icons.IconRobot,
@@ -45,7 +46,7 @@ const dashboard = {
         },
         {
             id: 'credentials',
-            title: 'Credentials',
+            title: intl.formatMessage({ id: 'credentials.dashboard' }),
             type: 'item',
             url: '/credentials',
             icon: icons.IconLock,
@@ -53,7 +54,7 @@ const dashboard = {
         },
         {
             id: 'apikey',
-            title: 'API Keys',
+            title: intl.formatMessage({ id: 'apikeys.dashboard' }),
             type: 'item',
             url: '/apikey',
             icon: icons.IconKey,

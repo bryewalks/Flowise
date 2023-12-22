@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
+import { useIntl } from 'react-intl'
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles'
@@ -32,6 +33,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const MarketplaceCanvasNode = ({ data }) => {
     const theme = useTheme()
+    const intl = useIntl()
 
     const [showDialog, setShowDialog] = useState(false)
     const [dialogProps, setDialogProps] = useState({})
@@ -41,8 +43,8 @@ const MarketplaceCanvasNode = ({ data }) => {
             data,
             inputParams: data.inputParams.filter((param) => param.additionalParams),
             disabled: true,
-            confirmButtonName: 'Save',
-            cancelButtonName: 'Cancel'
+            confirmButtonName: intl.formatMessage({ id: 'save' }),
+            cancelButtonName: intl.formatMessage({ id: 'cancel' })
         }
         setDialogProps(dialogProps)
         setShowDialog(true)
@@ -73,7 +75,7 @@ const MarketplaceCanvasNode = ({ data }) => {
                                 <img
                                     style={{ width: '100%', height: '100%', padding: 5, objectFit: 'contain' }}
                                     src={`${baseURL}/api/v1/node-icon/${data.name}`}
-                                    alt='Notification'
+                                    alt={intl.formatMessage({ id: 'notification' })}
                                 />
                             </div>
                         </Box>
@@ -98,7 +100,7 @@ const MarketplaceCanvasNode = ({ data }) => {
                                         textAlign: 'center'
                                     }}
                                 >
-                                    Inputs
+                                    {intl.formatMessage({ id: 'inputs' })}
                                 </Typography>
                             </Box>
                             <Divider />
@@ -113,7 +115,7 @@ const MarketplaceCanvasNode = ({ data }) => {
                     {data.inputParams.find((param) => param.additionalParams) && (
                         <div style={{ textAlign: 'center' }}>
                             <Button sx={{ borderRadius: 25, width: '90%', mb: 2 }} variant='outlined' onClick={onDialogClicked}>
-                                Additional Parameters
+                                {intl.formatMessage({ id: 'additional.parameters' })}
                             </Button>
                         </div>
                     )}
@@ -125,7 +127,7 @@ const MarketplaceCanvasNode = ({ data }) => {
                                 textAlign: 'center'
                             }}
                         >
-                            Output
+                            {intl.formatMessage({ id: 'output' })}
                         </Typography>
                     </Box>
                     <Divider />

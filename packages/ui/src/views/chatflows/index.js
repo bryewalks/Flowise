@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useIntl } from 'react-intl'
 
 // material-ui
 import { Grid, Box, Stack, Toolbar, ToggleButton, ButtonGroup, InputAdornment, TextField } from '@mui/material'
@@ -36,6 +37,7 @@ const Chatflows = () => {
     const navigate = useNavigate()
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
+    const intl = useIntl()
 
     const [isLoading, setLoading] = useState(true)
     const [images, setImages] = useState({})
@@ -137,12 +139,12 @@ const Chatflows = () => {
                             width: '100%'
                         }}
                     >
-                        <h1>Chatflows</h1>
+                        <h1>{intl.formatMessage({ id: 'chatflows.header' })}</h1>
                         <TextField
                             size='small'
                             sx={{ display: { xs: 'none', sm: 'block' }, ml: 3 }}
                             variant='outlined'
-                            placeholder='Search name or category'
+                            placeholder={intl.formatMessage({ id: 'chatflows.search.placeholder' })}
                             onChange={onSearchChange}
                             InputProps={{
                                 startAdornment: (
@@ -160,7 +162,7 @@ const Chatflows = () => {
                                         sx={{ color: theme?.customization?.isDarkMode ? 'white' : 'inherit' }}
                                         variant='contained'
                                         value='card'
-                                        title='Card View'
+                                        title={intl.formatMessage({ id: 'card.view' })}
                                     >
                                         <IconLayoutGrid />
                                     </ToggleButton>
@@ -168,7 +170,7 @@ const Chatflows = () => {
                                         sx={{ color: theme?.customization?.isDarkMode ? 'white' : 'inherit' }}
                                         variant='contained'
                                         value='list'
-                                        title='List View'
+                                        title={intl.formatMessage({ id: 'list.view' })}
                                     >
                                         <IconList />
                                     </ToggleButton>
@@ -177,7 +179,7 @@ const Chatflows = () => {
                             <Box sx={{ width: 5 }} />
                             <ButtonGroup disableElevation aria-label='outlined primary button group'>
                                 <StyledButton variant='contained' onClick={addNew} startIcon={<IconPlus />}>
-                                    Add New
+                                    {intl.formatMessage({ id: 'add.new' })}
                                 </StyledButton>
                             </ButtonGroup>
                         </ButtonGroup>
@@ -208,7 +210,7 @@ const Chatflows = () => {
                     <Box sx={{ p: 2, height: 'auto' }}>
                         <img style={{ objectFit: 'cover', height: '30vh', width: 'auto' }} src={WorkflowEmptySVG} alt='WorkflowEmptySVG' />
                     </Box>
-                    <div>No Chatflows Yet</div>
+                    <div>{intl.formatMessage({ id: 'chatflows.empty' })}</div>
                 </Stack>
             )}
             <LoginDialog show={loginDialogOpen} dialogProps={loginDialogProps} onConfirm={onLoginClick} />

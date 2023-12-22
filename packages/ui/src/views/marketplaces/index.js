@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 
 // material-ui
@@ -52,11 +53,16 @@ const Marketplace = () => {
 
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
+    const intl = useIntl()
 
     const [isChatflowsLoading, setChatflowsLoading] = useState(true)
     const [isToolsLoading, setToolsLoading] = useState(true)
     const [images, setImages] = useState({})
     const tabItems = ['Chatflows', 'Tools']
+    const intlTabItems = {
+        Chatflows: 'marketplaces.tab.chatflows',
+        Tools: 'marketplaces.tab.tools'
+    }
     const [value, setValue] = useState(0)
     const [showToolDialog, setShowToolDialog] = useState(false)
     const [toolDialogProps, setToolDialogProps] = useState({})
@@ -66,10 +72,10 @@ const Marketplace = () => {
 
     const onUseTemplate = (selectedTool) => {
         const dialogProp = {
-            title: 'Add New Tool',
+            title: intl.formatMessage({ id: 'add.new.tool' }),
             type: 'IMPORT',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Add',
+            cancelButtonName: intl.formatMessage({ id: 'cancel' }),
+            confirmButtonName: intl.formatMessage({ id: 'add' }),
             data: selectedTool
         }
         setToolDialogProps(dialogProp)
@@ -145,7 +151,7 @@ const Marketplace = () => {
                             key={index}
                             icon={index === 0 ? <IconHierarchy /> : <IconTool />}
                             iconPosition='start'
-                            label={<span style={{ fontSize: '1.1rem' }}>{item}</span>}
+                            label={<span style={{ fontSize: '1.1rem' }}>{intl.formatMessage({ id: intlTabItems[item] })}</span>}
                         />
                     ))}
                 </Tabs>
@@ -213,7 +219,7 @@ const Marketplace = () => {
                                 alt='WorkflowEmptySVG'
                             />
                         </Box>
-                        <div>No Marketplace Yet</div>
+                        <div>{intl.formatMessage({ id: 'marketplaces.empty' })}</div>
                     </Stack>
                 )}
             </MainCard>
