@@ -60,8 +60,8 @@ const Marketplace = () => {
     const [images, setImages] = useState({})
     const tabItems = ['Chatflows', 'Tools']
     const intlTabItems = {
-        Chatflows: 'marketplaces.tab.chatflows',
-        Tools: 'marketplaces.tab.tools'
+        Chatflows: intl.formatMessage({ id: 'marketplaces.tab.chatflows', defaultMessage: 'Chatflows' }),
+        Tools: intl.formatMessage({ id: 'marketplaces.tab.tools', defaultMessage: 'Tools' })
     }
     const [value, setValue] = useState(0)
     const [showToolDialog, setShowToolDialog] = useState(false)
@@ -72,10 +72,10 @@ const Marketplace = () => {
 
     const onUseTemplate = (selectedTool) => {
         const dialogProp = {
-            title: intl.formatMessage({ id: 'add.new.tool' }),
+            title: intl.formatMessage({ id: 'tool.add', defaultMessage: 'Add New Tool' }),
             type: 'IMPORT',
-            cancelButtonName: intl.formatMessage({ id: 'cancel' }),
-            confirmButtonName: intl.formatMessage({ id: 'add' }),
+            cancelButtonName: intl.formatMessage({ id: 'cancel', defaultMessage: 'Cancel' }),
+            confirmButtonName: intl.formatMessage({ id: 'add', defaultMessage: 'Add' }),
             data: selectedTool
         }
         setToolDialogProps(dialogProp)
@@ -143,7 +143,7 @@ const Marketplace = () => {
         <>
             <MainCard sx={{ background: customization.isDarkMode ? theme.palette.common.black : '' }}>
                 <Stack flexDirection='row'>
-                    <h1>Marketplace</h1>
+                    <h1>{intl.formatMessage({ id: 'marketplaces.header', defaultMessage: 'Marketplace' })}</h1>
                 </Stack>
                 <Tabs sx={{ mb: 2 }} variant='fullWidth' value={value} onChange={handleChange} aria-label='tabs'>
                     {tabItems.map((item, index) => (
@@ -151,7 +151,7 @@ const Marketplace = () => {
                             key={index}
                             icon={index === 0 ? <IconHierarchy /> : <IconTool />}
                             iconPosition='start'
-                            label={<span style={{ fontSize: '1.1rem' }}>{intl.formatMessage({ id: intlTabItems[item] })}</span>}
+                            label={<span style={{ fontSize: '1.1rem' }}>{intlTabItems[item]}</span>}
                         />
                     ))}
                 </Tabs>
@@ -219,7 +219,7 @@ const Marketplace = () => {
                                 alt='WorkflowEmptySVG'
                             />
                         </Box>
-                        <div>{intl.formatMessage({ id: 'marketplaces.empty' })}</div>
+                        <div>{intl.formatMessage({ id: 'marketplaces.empty', defaultMessage: 'No Marketplace Yet' })}</div>
                     </Stack>
                 )}
             </MainCard>

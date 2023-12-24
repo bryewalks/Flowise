@@ -61,7 +61,8 @@
         "dev": "craco start",
         "build": "craco build",
         "test": "craco test",
-        "eject": "craco eject"
+        "eject": "craco eject",
+        "extract-intl": "formatjs extract 'src/**/*.{js,jsx}' --out-file temp.json --flatten --id-interpolation-pattern '[sha514:contenthash:base64:6]' && formatjs compile 'temp.json' --out-file src/lang/en.json && rm temp.json"
     },
     "babel": {
         "presets": [
@@ -84,6 +85,7 @@
         "@babel/eslint-parser": "^7.15.8",
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "@craco/craco": "^7.1.0",
+        "@formatjs/cli": "^6.2.4",
         "@testing-library/jest-dom": "^5.11.10",
         "@testing-library/react": "^14.0.0",
         "@testing-library/user-event": "^12.8.3",

@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
+import { useIntl } from 'react-intl'
 
 // material-ui
 import { Grid, Box, Stack, Button } from '@mui/material'
@@ -27,6 +28,7 @@ import { IconPlus, IconFileImport } from '@tabler/icons'
 const Tools = () => {
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
+    const intl = useIntl()
 
     const getAllToolsApi = useApi(toolsApi.getAllTools)
 
@@ -38,10 +40,10 @@ const Tools = () => {
     const onUploadFile = (file) => {
         try {
             const dialogProp = {
-                title: 'Add New Tool',
+                title: intl.formatMessage({ id: 'tool.add', defaultMessage: 'Add New Tool' }),
                 type: 'IMPORT',
-                cancelButtonName: 'Cancel',
-                confirmButtonName: 'Save',
+                cancelButtonName: intl.formatMessage({ id: 'cancel', defaultMessage: 'Cancel' }),
+                confirmButtonName: intl.formatMessage({ id: 'save', defaultMessage: 'Save' }),
                 data: JSON.parse(file)
             }
             setDialogProps(dialogProp)
@@ -69,10 +71,10 @@ const Tools = () => {
 
     const addNew = () => {
         const dialogProp = {
-            title: 'Add New Tool',
+            title: intl.formatMessage({ id: 'tool.add', defaultMessage: 'Add New Tool' }),
             type: 'ADD',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Add'
+            cancelButtonName: intl.formatMessage({ id: 'cancel', defaultMessage: 'Cancel' }),
+            confirmButtonName: intl.formatMessage({ id: 'add', defaultMessage: 'Add' })
         }
         setDialogProps(dialogProp)
         setShowDialog(true)
@@ -80,10 +82,10 @@ const Tools = () => {
 
     const edit = (selectedTool) => {
         const dialogProp = {
-            title: 'Edit Tool',
+            title: intl.formatMessage({ id: 'tool.edit', defaultMessage: 'Edit Tool' }),
             type: 'EDIT',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Save',
+            cancelButtonName: intl.formatMessage({ id: 'cancel', defaultMessage: 'Cancel' }),
+            confirmButtonName: intl.formatMessage({ id: 'save', defaultMessage: 'Save' }),
             data: selectedTool
         }
         setDialogProps(dialogProp)
@@ -105,7 +107,7 @@ const Tools = () => {
         <>
             <MainCard sx={{ background: customization.isDarkMode ? theme.palette.common.black : '' }}>
                 <Stack flexDirection='row'>
-                    <h1>Tools</h1>
+                    <h1>{intl.formatMessage({ id: 'tools.header', defaultMessage: 'Tools' })}</h1>
                     <Grid sx={{ mb: 1.25 }} container direction='row'>
                         <Box sx={{ flexGrow: 1 }} />
                         <Grid item>
@@ -115,11 +117,11 @@ const Tools = () => {
                                 onClick={() => inputRef.current.click()}
                                 startIcon={<IconFileImport />}
                             >
-                                Load
+                                {intl.formatMessage({ id: 'load', defaultMessage: 'Load' })}
                             </Button>
                             <input ref={inputRef} type='file' hidden accept='.json' onChange={(e) => handleFileUpload(e)} />
                             <StyledButton variant='contained' sx={{ color: 'white' }} onClick={addNew} startIcon={<IconPlus />}>
-                                Create
+                                {intl.formatMessage({ id: 'create', defaultMessage: 'Create' })}
                             </StyledButton>
                         </Grid>
                     </Grid>
@@ -138,7 +140,7 @@ const Tools = () => {
                         <Box sx={{ p: 2, height: 'auto' }}>
                             <img style={{ objectFit: 'cover', height: '30vh', width: 'auto' }} src={ToolEmptySVG} alt='ToolEmptySVG' />
                         </Box>
-                        <div>No Tools Created Yet</div>
+                        <div>{intl.formatMessage({ id: 'tools.empty', defaultMessage: 'No Tools Created Yet' })}</div>
                     </Stack>
                 )}
             </MainCard>

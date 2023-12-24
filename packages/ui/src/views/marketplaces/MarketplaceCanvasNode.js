@@ -43,8 +43,8 @@ const MarketplaceCanvasNode = ({ data }) => {
             data,
             inputParams: data.inputParams.filter((param) => param.additionalParams),
             disabled: true,
-            confirmButtonName: intl.formatMessage({ id: 'save' }),
-            cancelButtonName: intl.formatMessage({ id: 'cancel' })
+            confirmButtonName: intl.formatMessage({ id: 'save', defaultMessage: 'Save' }),
+            cancelButtonName: intl.formatMessage({ id: 'cancel', defaultMessage: 'Cancel' })
         }
         setDialogProps(dialogProps)
         setShowDialog(true)
@@ -75,7 +75,7 @@ const MarketplaceCanvasNode = ({ data }) => {
                                 <img
                                     style={{ width: '100%', height: '100%', padding: 5, objectFit: 'contain' }}
                                     src={`${baseURL}/api/v1/node-icon/${data.name}`}
-                                    alt={intl.formatMessage({ id: 'notification' })}
+                                    alt={intl.formatMessage({ id: 'notification', defaultMessage: 'Notification' })}
                                 />
                             </div>
                         </Box>
@@ -100,7 +100,7 @@ const MarketplaceCanvasNode = ({ data }) => {
                                         textAlign: 'center'
                                     }}
                                 >
-                                    {intl.formatMessage({ id: 'inputs' })}
+                                    {intl.formatMessage({ id: 'inputs', defaultMessage: 'Inputs' })}
                                 </Typography>
                             </Box>
                             <Divider />
@@ -115,7 +115,7 @@ const MarketplaceCanvasNode = ({ data }) => {
                     {data.inputParams.find((param) => param.additionalParams) && (
                         <div style={{ textAlign: 'center' }}>
                             <Button sx={{ borderRadius: 25, width: '90%', mb: 2 }} variant='outlined' onClick={onDialogClicked}>
-                                {intl.formatMessage({ id: 'additional.parameters' })}
+                                {intl.formatMessage({ id: 'additional.parameters', defaultMessage: 'Additional Parameters' })}
                             </Button>
                         </div>
                     )}
@@ -127,7 +127,7 @@ const MarketplaceCanvasNode = ({ data }) => {
                                 textAlign: 'center'
                             }}
                         >
-                            {intl.formatMessage({ id: 'output' })}
+                            {intl.formatMessage({ id: 'output', defaultMessage: 'Output' })}
                         </Typography>
                     </Box>
                     <Divider />

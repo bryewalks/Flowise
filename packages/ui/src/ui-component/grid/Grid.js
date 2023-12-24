@@ -1,9 +1,11 @@
+import { useIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 import { DataGrid } from '@mui/x-data-grid'
 import { IconPlus } from '@tabler/icons'
 import { Button } from '@mui/material'
 
 export const Grid = ({ columns, rows, style, disabled = false, onRowUpdate, addNewRow }) => {
+    const intl = useIntl()
     const handleProcessRowUpdate = (newRow) => {
         onRowUpdate(newRow)
         return newRow
@@ -13,7 +15,7 @@ export const Grid = ({ columns, rows, style, disabled = false, onRowUpdate, addN
         <>
             {!disabled && (
                 <Button variant='outlined' onClick={addNewRow} startIcon={<IconPlus />}>
-                    Add Item
+                    {intl.formatMessage({ id: 'add.item', defaultMessage: 'Add Item' })}
                 </Button>
             )}
             {rows && columns && (

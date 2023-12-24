@@ -139,12 +139,15 @@ const Chatflows = () => {
                             width: '100%'
                         }}
                     >
-                        <h1>{intl.formatMessage({ id: 'chatflows.header' })}</h1>
+                        <h1>{intl.formatMessage({ id: 'chatflows.header', defaultMessage: 'Chatflows' })}</h1>
                         <TextField
                             size='small'
                             sx={{ display: { xs: 'none', sm: 'block' }, ml: 3 }}
                             variant='outlined'
-                            placeholder={intl.formatMessage({ id: 'chatflows.search.placeholder' })}
+                            placeholder={intl.formatMessage({
+                                id: 'chatflows.search.placeholder',
+                                defaultMessage: 'Search name or category'
+                            })}
                             onChange={onSearchChange}
                             InputProps={{
                                 startAdornment: (
@@ -162,7 +165,7 @@ const Chatflows = () => {
                                         sx={{ color: theme?.customization?.isDarkMode ? 'white' : 'inherit' }}
                                         variant='contained'
                                         value='card'
-                                        title={intl.formatMessage({ id: 'card.view' })}
+                                        title={intl.formatMessage({ id: 'card.view', defaultMessage: 'Card View' })}
                                     >
                                         <IconLayoutGrid />
                                     </ToggleButton>
@@ -170,7 +173,7 @@ const Chatflows = () => {
                                         sx={{ color: theme?.customization?.isDarkMode ? 'white' : 'inherit' }}
                                         variant='contained'
                                         value='list'
-                                        title={intl.formatMessage({ id: 'list.view' })}
+                                        title={intl.formatMessage({ id: 'list.view', defaultMessage: 'List View' })}
                                     >
                                         <IconList />
                                     </ToggleButton>
@@ -179,7 +182,7 @@ const Chatflows = () => {
                             <Box sx={{ width: 5 }} />
                             <ButtonGroup disableElevation aria-label='outlined primary button group'>
                                 <StyledButton variant='contained' onClick={addNew} startIcon={<IconPlus />}>
-                                    {intl.formatMessage({ id: 'add.new' })}
+                                    {intl.formatMessage({ id: 'add.new', defaultMessage: 'Add New' })}
                                 </StyledButton>
                             </ButtonGroup>
                         </ButtonGroup>
@@ -210,7 +213,7 @@ const Chatflows = () => {
                     <Box sx={{ p: 2, height: 'auto' }}>
                         <img style={{ objectFit: 'cover', height: '30vh', width: 'auto' }} src={WorkflowEmptySVG} alt='WorkflowEmptySVG' />
                     </Box>
-                    <div>{intl.formatMessage({ id: 'chatflows.empty' })}</div>
+                    <div>{intl.formatMessage({ id: 'chatflows.empty', defaultMessage: 'No Chatflows Yet' })}</div>
                 </Stack>
             )}
             <LoginDialog show={loginDialogOpen} dialogProps={loginDialogProps} onConfirm={onLoginClick} />

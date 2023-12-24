@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { enqueueSnackbar as enqueueSnackbarAction, closeSnackbar as closeSnackbarAction } from 'store/actions'
 import { cloneDeep } from 'lodash'
+import { useIntl } from 'react-intl'
 
 import { Box, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, OutlinedInput } from '@mui/material'
 import { StyledButton } from 'ui-component/button/StyledButton'
@@ -57,6 +58,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
 
     const customization = useSelector((state) => state.customization)
     const dispatch = useDispatch()
+    const intl = useIntl()
 
     // ==============================|| Snackbar ||============================== //
 
@@ -116,23 +118,44 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
 
     const columns = useMemo(
         () => [
-            { field: 'property', headerName: 'Property', editable: true, flex: 1 },
+            {
+                field: 'property',
+                headerName: intl.formatMessage({ id: 'tool.table.header.property', defaultMessage: 'Property' }),
+                editable: true,
+                flex: 1
+            },
             {
                 field: 'type',
-                headerName: 'Type',
+                headerName: intl.formatMessage({ id: 'tool.table.header.type', defaultMessage: 'Type' }),
                 type: 'singleSelect',
                 valueOptions: ['string', 'number', 'boolean', 'date'],
                 editable: true,
                 width: 120
             },
-            { field: 'description', headerName: 'Description', editable: true, flex: 1 },
-            { field: 'required', headerName: 'Required', type: 'boolean', editable: true, width: 80 },
+            {
+                field: 'description',
+                headerName: intl.formatMessage({ id: 'tool.table.header.description', defaultMessage: 'Description' }),
+                editable: true,
+                flex: 1
+            },
+            {
+                field: 'required',
+                headerName: intl.formatMessage({ id: 'tool.table.header.required', defaultMessage: 'Required' }),
+                type: 'boolean',
+                editable: true,
+                width: 80
+            },
             {
                 field: 'actions',
                 type: 'actions',
                 width: 80,
                 getActions: (params) => [
-                    <GridActionsCellItem key={'Delete'} icon={<DeleteIcon />} label='Delete' onClick={deleteItem(params.id)} />
+                    <GridActionsCellItem
+                        key={'Delete'}
+                        icon={<DeleteIcon />}
+                        label={intl.formatMessage({ id: 'delete', defaultMessage: 'Delete' })}
+                        onClick={deleteItem(params.id)}
+                    />
                 ]
             }
         ],
@@ -223,7 +246,10 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
         } catch (error) {
             const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
             enqueueSnackbar({
-                message: `Failed to export Tool: ${errorData}`,
+                message: intl.formatMessage(
+                    { id: 'tool.export.failed', defaultMessage: 'Failed to export Tool: {errorData}' },
+                    { errorData }
+                ),
                 options: {
                     key: new Date().getTime() + Math.random(),
                     variant: 'error',
@@ -252,7 +278,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
             const createResp = await toolsApi.createNewTool(obj)
             if (createResp.data) {
                 enqueueSnackbar({
-                    message: 'New Tool added',
+                    message: intl.formatMessage({ id: 'tool.added', defaultMessage: 'New Tool added' }),
                     options: {
                         key: new Date().getTime() + Math.random(),
                         variant: 'success',
@@ -268,7 +294,10 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
         } catch (error) {
             const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
             enqueueSnackbar({
-                message: `Failed to add new Tool: ${errorData}`,
+                message: intl.formatMessage(
+                    { id: 'tool.add.failed', defaultMessage: 'Failed to add new Tool: {errorData}' },
+                    { errorData }
+                ),
                 options: {
                     key: new Date().getTime() + Math.random(),
                     variant: 'error',
@@ -295,7 +324,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
             })
             if (saveResp.data) {
                 enqueueSnackbar({
-                    message: 'Tool saved',
+                    message: intl.formatMessage({ id: 'tool.saved', defaultMessage: 'Tool saved' }),
                     options: {
                         key: new Date().getTime() + Math.random(),
                         variant: 'success',
@@ -312,7 +341,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
             console.error(error)
             const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
             enqueueSnackbar({
-                message: `Failed to save Tool: ${errorData}`,
+                message: intl.formatMessage({ id: 'tool.save.failed', defaultMessage: 'Failed to save Tool: {errorData}' }, { errorData }),
                 options: {
                     key: new Date().getTime() + Math.random(),
                     variant: 'error',
@@ -330,10 +359,10 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
 
     const deleteTool = async () => {
         const confirmPayload = {
-            title: `Delete Tool`,
-            description: `Delete tool ${toolName}?`,
-            confirmButtonName: 'Delete',
-            cancelButtonName: 'Cancel'
+            title: intl.formatMessage({ id: 'tool.delete', defaultMessage: 'Delete Tool' }),
+            description: intl.formatMessage({ id: 'tool.delete.name', defaultMessage: 'Delete tool {toolName}?' }, { toolName }),
+            confirmButtonName: intl.formatMessage({ id: 'delete', defaultMessage: 'Delete' }),
+            cancelButtonName: intl.formatMessage({ id: 'cancel', defaultMessage: 'Cancel' })
         }
         const isConfirmed = await confirm(confirmPayload)
 
@@ -342,7 +371,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 const delResp = await toolsApi.deleteTool(toolId)
                 if (delResp.data) {
                     enqueueSnackbar({
-                        message: 'Tool deleted',
+                        message: intl.formatMessage({ id: 'tool.deleted', defaultMessage: 'Tool deleted' }),
                         options: {
                             key: new Date().getTime() + Math.random(),
                             variant: 'success',
@@ -358,7 +387,10 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
             } catch (error) {
                 const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
                 enqueueSnackbar({
-                    message: `Failed to delete Tool: ${errorData}`,
+                    message: intl.formatMessage(
+                        { id: 'tool.delete.failed', defaultMessage: 'Failed to delete Tool: {errorData}' },
+                        { errorData }
+                    ),
                     options: {
                         key: new Date().getTime() + Math.random(),
                         variant: 'error',
@@ -390,7 +422,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                     <div style={{ flex: 1 }} />
                     {dialogProps.type === 'EDIT' && (
                         <Button variant='outlined' onClick={() => exportTool()} startIcon={<IconFileExport />}>
-                            Export
+                            {intl.formatMessage({ id: 'export', defaultMessage: 'Export' })}
                         </Button>
                     )}
                 </div>
@@ -399,11 +431,14 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
-                            Tool Name
+                            {intl.formatMessage({ id: 'tool.name', defaultMessage: 'Tool Name' })}
                             <span style={{ color: 'red' }}>&nbsp;*</span>
                             <TooltipWithParser
                                 style={{ marginLeft: 10 }}
-                                title={'Tool name must be small capital letter with underscore. Ex: my_tool'}
+                                title={intl.formatMessage({
+                                    id: 'tool.name.tooltip',
+                                    defaultMessage: 'Tool name must be small capital letter with underscore. Ex: my_tool'
+                                })}
                             />
                         </Typography>
                     </Stack>
@@ -412,7 +447,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                         type='string'
                         fullWidth
                         disabled={dialogProps.type === 'TEMPLATE'}
-                        placeholder='My New Tool'
+                        placeholder={intl.formatMessage({ id: 'tool.name.placeholder', defaultMessage: 'My New Tool' })}
                         value={toolName}
                         name='toolName'
                         onChange={(e) => setToolName(e.target.value)}
@@ -421,11 +456,15 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
-                            Tool description
+                            {intl.formatMessage({ id: 'tool.description', defaultMessage: 'Tool description' })}
                             <span style={{ color: 'red' }}>&nbsp;*</span>
                             <TooltipWithParser
                                 style={{ marginLeft: 10 }}
-                                title={'Description of what the tool does. This is for ChatGPT to determine when to use this tool.'}
+                                title={intl.formatMessage({
+                                    id: 'tool.description.placeholder',
+                                    defaultMessage:
+                                        'Description of what the tool does. This is for ChatGPT to determine when to use this tool.'
+                                })}
                             />
                         </Typography>
                     </Stack>
@@ -434,7 +473,10 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                         type='string'
                         fullWidth
                         disabled={dialogProps.type === 'TEMPLATE'}
-                        placeholder='Description of what the tool does. This is for ChatGPT to determine when to use this tool.'
+                        placeholder={intl.formatMessage({
+                            id: 'tool.description.placeholder',
+                            defaultMessage: 'Description of what the tool does. This is for ChatGPT to determine when to use this tool.'
+                        })}
                         multiline={true}
                         rows={3}
                         value={toolDesc}
@@ -444,7 +486,9 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 </Box>
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
-                        <Typography variant='overline'>Tool Icon Src</Typography>
+                        <Typography variant='overline'>
+                            {intl.formatMessage({ id: 'tool.icon.src', defaultMessage: 'Tool Icon Src' })}
+                        </Typography>
                     </Stack>
                     <OutlinedInput
                         id='toolIcon'
@@ -460,8 +504,14 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
-                            Output Schema
-                            <TooltipWithParser style={{ marginLeft: 10 }} title={'What should be the output response in JSON format?'} />
+                            {intl.formatMessage({ id: 'tool.output.schema', defaultMessage: 'Output Schema' })}
+                            <TooltipWithParser
+                                style={{ marginLeft: 10 }}
+                                title={intl.formatMessage({
+                                    id: 'tool.output.schema.tooltip',
+                                    defaultMessage: 'What should be the output response in JSON format?'
+                                })}
+                            />
                         </Typography>
                     </Stack>
                     <Grid
@@ -475,16 +525,27 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
-                            Javascript Function
+                            {intl.formatMessage({ id: 'tool.javascript.function', defaultMessage: 'Javascript Function' })}
                             <TooltipWithParser
                                 style={{ marginLeft: 10 }}
-                                title='Function to execute when tool is being used. You can use properties specified in Output Schema as variables. For example, if the property is <code>userid</code>, you can use as <code>$userid</code>. Return value must be a string. You can also override the code from API by following this <a target="_blank" href="https://docs.flowiseai.com/tools/custom-tool#override-function-from-api">guide</a>'
+                                title={intl.formatMessage(
+                                    {
+                                        id: 'tool.javascript.function.tooltip',
+                                        defaultMessage:
+                                            'Function to execute when tool is being used. You can use properties specified in Output Schema as variables. For example, if the property is <code>userid</code>, you can use as <code>$userid</code>. Return value must be a string. You can also override the code from API by following this <a>guide</a>'
+                                    },
+                                    {
+                                        code: (value) => value,
+                                        a: (value) =>
+                                            `<a target='_blank' href='https://docs.flowiseai.com/tools/custom-tool#override-function-from-api'>${value}</a>`
+                                    }
+                                )}
                             />
                         </Typography>
                     </Stack>
                     {dialogProps.type !== 'TEMPLATE' && (
                         <Button style={{ marginBottom: 10 }} variant='outlined' onClick={() => setToolFunc(exampleAPIFunc)}>
-                            See Example
+                            {intl.formatMessage({ id: 'see.example', defaultMessage: 'See Example' })}
                         </Button>
                     )}
                     <CodeEditor
@@ -500,12 +561,12 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
             <DialogActions>
                 {dialogProps.type === 'EDIT' && (
                     <StyledButton color='error' variant='contained' onClick={() => deleteTool()}>
-                        Delete
+                        {intl.formatMessage({ id: 'delete', defaultMessage: 'Delete' })}
                     </StyledButton>
                 )}
                 {dialogProps.type === 'TEMPLATE' && (
                     <StyledButton color='secondary' variant='contained' onClick={useToolTemplate}>
-                        Use Template
+                        {intl.formatMessage({ id: 'use.template', defaultMessage: 'Use Template' })}
                     </StyledButton>
                 )}
                 {dialogProps.type !== 'TEMPLATE' && (

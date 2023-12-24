@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useState, useCallback } from 'react'
+import { useIntl } from 'react-intl'
 import { DataGrid as MUIDataGrid, GridActionsCellItem } from '@mui/x-data-grid'
 import { IconPlus } from '@tabler/icons'
 import { Button } from '@mui/material'
@@ -8,6 +9,7 @@ import { cloneDeep } from 'lodash'
 import { formatDataGridRows } from 'utils/genericHelper'
 
 export const DataGrid = ({ columns, rows, style, disabled = false, hideFooter = false, onChange }) => {
+    const intl = useIntl()
     const [rowValues, setRowValues] = useState(formatDataGridRows(rows) ?? [])
 
     const deleteItem = useCallback(
@@ -33,7 +35,12 @@ export const DataGrid = ({ columns, rows, style, disabled = false, hideFooter = 
                 type: 'actions',
                 width: 80,
                 getActions: (params) => [
-                    <GridActionsCellItem key={'Delete'} icon={<DeleteIcon />} label='Delete' onClick={deleteItem(params.id)} />
+                    <GridActionsCellItem
+                        key={'Delete'}
+                        icon={<DeleteIcon />}
+                        label={intl.formatMessage({ id: 'delete', defaultMessage: 'Delete' })}
+                        onClick={deleteItem(params.id)}
+                    />
                 ]
             }
         ]
@@ -94,7 +101,7 @@ export const DataGrid = ({ columns, rows, style, disabled = false, hideFooter = 
             )}
             {!disabled && (
                 <Button sx={{ mt: 1 }} variant='outlined' onClick={addNewRow} startIcon={<IconPlus />}>
-                    Add Item
+                    {intl.formatMessage({ id: 'add.item', defaultMessage: 'Add Item' })}
                 </Button>
             )}
         </>

@@ -1,6 +1,6 @@
 import React from 'react'
 import App from './App'
-import { intl } from './languages/utils/intl'
+import { intl } from './lang/utils/intl'
 import { store } from 'store'
 import { createRoot } from 'react-dom/client'
 

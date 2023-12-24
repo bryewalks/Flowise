@@ -20,7 +20,7 @@ const MarketplaceCanvasHeader = ({ flowName, flowData, onChatflowCopy }) => {
     return (
         <>
             <Box>
-                <ButtonBase title={intl.formatMessage({ id: 'back' })} sx={{ borderRadius: '50%' }}>
+                <ButtonBase title={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} sx={{ borderRadius: '50%' }}>
                     <Avatar
                         variant='rounded'
                         sx={{
@@ -58,11 +58,11 @@ const MarketplaceCanvasHeader = ({ flowName, flowData, onChatflowCopy }) => {
                 <StyledButton
                     color='secondary'
                     variant='contained'
-                    title={intl.formatMessage({ id: 'use.chatflow' })}
+                    title={intl.formatMessage({ id: 'use.chatflow', defaultMessage: 'Use Chatflow' })}
                     onClick={() => onChatflowCopy(flowData)}
                     startIcon={<IconCopy />}
                 >
-                    {intl.formatMessage({ id: 'use.template' })}
+                    {intl.formatMessage({ id: 'use.template', defaultMessage: 'Use Template' })}
                 </StyledButton>
             </Box>
         </>

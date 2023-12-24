@@ -7,6 +7,8 @@ import colors from 'assets/scss/_themes-vars.module.scss'
 import componentStyleOverrides from './compStyleOverride'
 import themePalette from './palette'
 import themeTypography from './typography'
+import { language } from 'lang/utils/intl'
+import { muiDataGridLocale } from 'lang/utils/muiDataGridLocale'
 
 /**
  * Represent theme style and structure as per Material-UI
@@ -62,7 +64,10 @@ export const theme = (customization) => {
     }
 
     const themes = createTheme(themeOptions)
-    themes.components = componentStyleOverrides(themeOption)
+    themes.components = {
+        ...componentStyleOverrides(themeOption),
+        ...muiDataGridLocale[language]?.components
+    }
 
     return themes
 }
