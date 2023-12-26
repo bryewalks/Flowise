@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 import { useTheme } from '@mui/material/styles'
 import { FormControl, Button } from '@mui/material'
@@ -6,6 +7,7 @@ import { IconUpload } from '@tabler/icons'
 import { getFileName } from 'utils/genericHelper'
 
 export const File = ({ value, fileType, onChange, disabled = false }) => {
+    const intl = useIntl()
     const theme = useTheme()
 
     const [myValue, setMyValue] = useState(value ?? '')
@@ -63,7 +65,9 @@ export const File = ({ value, fileType, onChange, disabled = false }) => {
                     marginBottom: '1rem'
                 }}
             >
-                {myValue ? getFileName(myValue) : 'Choose a file to upload'}
+                {myValue
+                    ? getFileName(myValue)
+                    : intl.formatMessage({ id: 'upload.file.choose', defaultMessage: 'Choose a file to upload' })}
             </span>
             <Button
                 disabled={disabled}
@@ -73,7 +77,7 @@ export const File = ({ value, fileType, onChange, disabled = false }) => {
                 startIcon={<IconUpload />}
                 sx={{ marginRight: '1rem' }}
             >
-                {'Upload File'}
+                {intl.formatMessage({ id: 'upload.file', defaultMessage: 'Upload File' })}
                 <input type='file' multiple accept={fileType} hidden onChange={(e) => handleFileUpload(e)} />
             </Button>
         </FormControl>

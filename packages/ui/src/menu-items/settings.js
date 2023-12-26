@@ -14,49 +14,49 @@ const settings = {
     children: [
         {
             id: 'conversationStarters',
-            title: intl.formatMessage({ id: 'settings.starter.prompts', defaultMessage: 'Starter Prompts' }),
+            title: intl.formatMessage({ id: 'starter.prompts', defaultMessage: 'Starter Prompts' }),
             type: 'item',
             url: '',
             icon: icons.IconPictureInPictureOff
         },
         {
             id: 'viewMessages',
-            title: intl.formatMessage({ id: 'settings.view.messages', defaultMessage: 'View Messages' }),
+            title: intl.formatMessage({ id: 'view.messages', defaultMessage: 'View Messages' }),
             type: 'item',
             url: '',
             icon: icons.IconMessage
         },
         {
             id: 'duplicateChatflow',
-            title: intl.formatMessage({ id: 'settings.duplicate.chatflow', defaultMessage: 'Duplicate Chatflow' }),
+            title: intl.formatMessage({ id: 'duplicate.chatflow', defaultMessage: 'Duplicate Chatflow' }),
             type: 'item',
             url: '',
             icon: icons.IconCopy
         },
         {
             id: 'loadChatflow',
-            title: intl.formatMessage({ id: 'settings.load.chatflow', defaultMessage: 'Load Chatflow' }),
+            title: intl.formatMessage({ id: 'load.chatflow', defaultMessage: 'Load Chatflow' }),
             type: 'item',
             url: '',
             icon: icons.IconFileUpload
         },
         {
             id: 'exportChatflow',
-            title: intl.formatMessage({ id: 'settings.export.chatflow', defaultMessage: 'Export Chatflow' }),
+            title: intl.formatMessage({ id: 'export.chatflow', defaultMessage: 'Export Chatflow' }),
             type: 'item',
             url: '',
             icon: icons.IconFileExport
         },
         {
             id: 'analyseChatflow',
-            title: intl.formatMessage({ id: 'settings.analyse.chatflow', defaultMessage: 'Analyse Chatflow' }),
+            title: intl.formatMessage({ id: 'analyse.chatflow', defaultMessage: 'Analyse Chatflow' }),
             type: 'item',
             url: '',
             icon: icons.IconSearch
         },
         {
             id: 'deleteChatflow',
-            title: intl.formatMessage({ id: 'settings.delete.chatflow', defaultMessage: 'Delete Chatflow' }),
+            title: intl.formatMessage({ id: 'delete.chatflow', defaultMessage: 'Delete Chatflow' }),
             type: 'item',
             url: '',
             icon: icons.IconTrash

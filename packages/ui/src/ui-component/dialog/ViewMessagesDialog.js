@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect, forwardRef } from 'react'
+import { FormattedMessage, useIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import rehypeMathjax from 'rehype-mathjax'
@@ -71,6 +72,7 @@ DatePickerCustomInput.propTypes = {
 
 const ViewMessagesDialog = ({ show, dialogProps, onCancel }) => {
     const portalElement = document.getElementById('portal')
+    const intl = useIntl()
     const dispatch = useDispatch()
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
@@ -172,13 +174,22 @@ const ViewMessagesDialog = ({ show, dialogProps, onCancel }) => {
     const clearChat = async (chatmsg) => {
         const description =
             chatmsg.sessionId && chatmsg.memoryType
-                ? `Are you sure you want to clear session id: ${chatmsg.sessionId} from ${chatmsg.memoryType}?`
-                : `Are you sure you want to clear messages?`
+                ? intl.formatMessage(
+                      {
+                          id: 'view.messages.dialog.clear.session.description',
+                          defaultMessage: 'Are you sure you want to clear session id: {sessionId} from {memoryType}?'
+                      },
+                      { sessionId: chatmsg.sessionId, memoryType: chatmsg.memoryType }
+                  )
+                : intl.formatMessage({
+                      id: 'view.messages.dialog.clear.messages.description',
+                      defaultMessage: 'Are you sure you want to clear messages?'
+                  })
         const confirmPayload = {
-            title: `Clear Session`,
+            title: intl.formatMessage({ id: 'view.messages.dialog.clear.session', defaultMessage: 'Clear Session' }),
             description,
-            confirmButtonName: 'Clear',
-            cancelButtonName: 'Cancel'
+            confirmButtonName: intl.formatMessage({ id: 'clear', defaultMessage: 'Clear' }),
+            cancelButtonName: intl.formatMessage({ id: 'cancel', defaultMessage: 'Cancel' })
         }
         const isConfirmed = await confirm(confirmPayload)
 
@@ -194,8 +205,17 @@ const ViewMessagesDialog = ({ show, dialogProps, onCancel }) => {
                 await chatmessageApi.deleteChatmessage(chatflowid, obj)
                 const description =
                     chatmsg.sessionId && chatmsg.memoryType
-                        ? `Succesfully cleared session id: ${chatmsg.sessionId} from ${chatmsg.memoryType}`
-                        : `Succesfully cleared messages`
+                        ? intl.formatMessage(
+                              {
+                                  id: 'view.messages.dialog.cleared.session.description',
+                                  defaultMessage: 'Succesfully cleared session id: {sessionId} from {memoryType}'
+                              },
+                              { sessionId: chatmsg.sessionId, memoryType: chatmsg.memoryType }
+                          )
+                        : intl.formatMessage({
+                              id: 'view.messages.dialog.cleared.messages.description',
+                              defaultMessage: 'Succesfully cleared messages'
+                          })
                 enqueueSnackbar({
                     message: description,
                     options: {
@@ -404,7 +424,7 @@ const ViewMessagesDialog = ({ show, dialogProps, onCancel }) => {
                     {dialogProps.title}
                     <div style={{ flex: 1 }} />
                     <Button variant='outlined' onClick={() => exportMessages()} startIcon={<IconFileExport />}>
-                        Export
+                        <FormattedMessage id='export' defaultMessage='Export' />
                     </Button>
                 </div>
             </DialogTitle>
@@ -467,7 +487,9 @@ const ViewMessagesDialog = ({ show, dialogProps, onCancel }) => {
                                         alt='msgEmptySVG'
                                     />
                                 </Box>
-                                <div>No Messages</div>
+                                <div>
+                                    <FormattedMessage id='view.messages.dialog.empty' defaultMessage='No Messages' />
+                                </div>
                             </Stack>
                         )}
                         {chatlogs && chatlogs.length > 0 && (
@@ -529,17 +551,35 @@ const ViewMessagesDialog = ({ show, dialogProps, onCancel }) => {
                                         <div style={{ flex: 1, marginLeft: '20px', marginBottom: '15px', marginTop: '10px' }}>
                                             {chatMessages[1].sessionId && (
                                                 <div>
-                                                    Session Id:&nbsp;<b>{chatMessages[1].sessionId}</b>
+                                                    <FormattedMessage
+                                                        id='view.messages.dialog.message.sessionid'
+                                                        defaultMessage='Session Id: <b>{sessionId}</b>'
+                                                        values={{
+                                                            b: () => <b>{chatMessages[1].sessionId}</b>
+                                                        }}
+                                                    />
                                                 </div>
                                             )}
                                             {chatMessages[1].chatType && (
                                                 <div>
-                                                    Source:&nbsp;<b>{chatMessages[1].chatType === 'INTERNAL' ? 'UI' : 'API/Embed'}</b>
+                                                    <FormattedMessage
+                                                        id='view.messages.dialog.message.source'
+                                                        defaultMessage='Source: <b>{source}</b>'
+                                                        values={{
+                                                            b: () => <b>{chatMessages[1].chatType === 'INTERNAL' ? 'UI' : 'API/Embed'}</b>
+                                                        }}
+                                                    />
                                                 </div>
                                             )}
                                             {chatMessages[1].memoryType && (
                                                 <div>
-                                                    Memory:&nbsp;<b>{chatMessages[1].memoryType}</b>
+                                                    <FormattedMessage
+                                                        id='view.messages.dialog.message.memory'
+                                                        defaultMessage='Memory: <b>{memoryType}</b>'
+                                                        values={{
+                                                            b: () => <b>{chatMessages[1].memoryType}</b>
+                                                        }}
+                                                    />
                                                 </div>
                                             )}
                                         </div>
@@ -555,21 +595,29 @@ const ViewMessagesDialog = ({ show, dialogProps, onCancel }) => {
                                                 sx={{ height: 'max-content', width: 'max-content' }}
                                                 variant='outlined'
                                                 color='error'
-                                                title='Clear Message'
+                                                title={intl.formatMessage({
+                                                    id: 'view.messages.dialog.message.clear',
+                                                    defaultMessage: 'Clear Message'
+                                                })}
                                                 onClick={() => clearChat(chatMessages[1])}
                                                 startIcon={<IconEraser />}
                                             >
-                                                Clear
+                                                <FormattedMessage id='clear' defaultMessage='Clear' />
                                             </StyledButton>
                                             {chatMessages[1].sessionId && (
                                                 <Tooltip
-                                                    title={
-                                                        'At your left 👈 you will see the Memory node that was used in this conversation. You need to have the matching Memory node with same parameters in the canvas, in order to delete the session conversations stored on the Memory node'
-                                                    }
+                                                    title={intl.formatMessage({
+                                                        id: 'view.messages.dialog.session.tooltip',
+                                                        defaultMessage:
+                                                            'At your left 👈 you will see the Memory node that was used in this conversation. You need to have the matching Memory node with same parameters in the canvas, in order to delete the session conversations stored on the Memory node'
+                                                    })}
                                                     placement='bottom'
                                                 >
                                                     <h5 style={{ cursor: 'pointer', color: theme.palette.primary.main }}>
-                                                        Why my session is not deleted?
+                                                        <FormattedMessage
+                                                            id='view.messages.dialog.session.not.deleted'
+                                                            defaultMessage='Why my session is not deleted?'
+                                                        />
                                                     </h5>
                                                 </Tooltip>
                                             )}

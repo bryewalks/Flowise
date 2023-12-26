@@ -1,11 +1,13 @@
 import { createPortal } from 'react-dom'
 import { useState, useEffect } from 'react'
+import { useIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import { Button, Dialog, DialogActions, DialogContent, OutlinedInput, DialogTitle } from '@mui/material'
 import { StyledButton } from 'ui-component/button/StyledButton'
 
 const SaveChatflowDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
+    const intl = useIntl()
     const portalElement = document.getElementById('portal')
 
     const [chatflowName, setChatflowName] = useState('')
@@ -34,7 +36,7 @@ const SaveChatflowDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                     id='chatflow-name'
                     type='text'
                     fullWidth
-                    placeholder='My New Chatflow'
+                    placeholder={intl.formatMessage({ id: 'save.chatflow.dialog.placeholder', defaultMessage: 'My New Chatflow' })}
                     value={chatflowName}
                     onChange={(e) => setChatflowName(e.target.value)}
                 />

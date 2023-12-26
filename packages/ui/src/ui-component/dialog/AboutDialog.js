@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom'
 import { useState, useEffect } from 'react'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import { Dialog, DialogContent, DialogTitle, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material'
 import moment from 'moment'
@@ -52,7 +53,7 @@ const AboutDialog = ({ show, onCancel }) => {
             aria-describedby='alert-dialog-description'
         >
             <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
-                Flowise Version
+                <FormattedMessage id='flowise.version' defaultMessage='Flowise Version' />
             </DialogTitle>
             <DialogContent>
                 {data && (
@@ -60,9 +61,15 @@ const AboutDialog = ({ show, onCancel }) => {
                         <Table aria-label='simple table'>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Current Version</TableCell>
-                                    <TableCell>Latest Version</TableCell>
-                                    <TableCell>Published At</TableCell>
+                                    <TableCell>
+                                        <FormattedMessage id='current.version' defaultMessage='Current Version' />
+                                    </TableCell>
+                                    <TableCell>
+                                        <FormattedMessage id='latest.version' defaultMessage='Latest Version' />
+                                    </TableCell>
+                                    <TableCell>
+                                        <FormattedMessage id='published.at' defaultMessage='Published At' />
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

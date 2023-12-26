@@ -159,7 +159,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 ]
             }
         ],
-        [deleteItem]
+        [deleteItem, intl]
     )
 
     useEffect(() => {

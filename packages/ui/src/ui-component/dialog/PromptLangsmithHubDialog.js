@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import rehypeMathjax from 'rehype-mathjax'
@@ -262,7 +263,7 @@ const PromptLangsmithHubDialog = ({ promptType, show, onCancel, onSubmit }) => {
                 <Box sx={{ display: 'flex', flexDirection: 'row', p: 2, pt: 1, alignItems: 'center' }}>
                     <FormControl sx={{ mr: 1, width: '30%' }}>
                         <InputLabel size='small' id='model-checkbox-label'>
-                            Model
+                            <FormattedMessage id='model' defaultMessage='Model' />
                         </InputLabel>
                         <Select
                             id='model-checkbox'
@@ -299,7 +300,7 @@ const PromptLangsmithHubDialog = ({ promptType, show, onCancel, onSubmit }) => {
                     </FormControl>
                     <FormControl sx={{ mr: 1, width: '30%' }}>
                         <InputLabel size='small' id='usecase-checkbox-label'>
-                            Usecase
+                            <FormattedMessage id='usecase' defaultMessage='Usecase' />
                         </InputLabel>
                         <Select
                             autoWidth={false}
@@ -337,7 +338,7 @@ const PromptLangsmithHubDialog = ({ promptType, show, onCancel, onSubmit }) => {
                     </FormControl>
                     <FormControl sx={{ mr: 1, width: '30%' }}>
                         <InputLabel size='small' id='language-checkbox-label'>
-                            Language
+                            <FormattedMessage id='language' defaultMessage='Language' />
                         </InputLabel>
                         <Select
                             labelId='language-checkbox-label'
@@ -374,7 +375,7 @@ const PromptLangsmithHubDialog = ({ promptType, show, onCancel, onSubmit }) => {
                     </FormControl>
                     <FormControl sx={{ width: '10%' }}>
                         <Button disableElevation variant='outlined' onClick={fetchPrompts}>
-                            Search
+                            <FormattedMessage id='search' defaultMessage='Search' />
                         </Button>
                     </FormControl>
                 </Box>
@@ -384,7 +385,9 @@ const PromptLangsmithHubDialog = ({ promptType, show, onCancel, onSubmit }) => {
                         <Box sx={{ p: 5, height: 'auto' }}>
                             <img style={{ objectFit: 'cover', height: '20vh', width: 'auto' }} src={promptEmptySVG} alt='promptEmptySVG' />
                         </Box>
-                        <div>No Available Prompts</div>
+                        <div>
+                            <FormattedMessage id='available.prompts.empty' defaultMessage='No Available Prompts' />
+                        </div>
                     </Stack>
                 )}
                 {availablePrompNameList && availablePrompNameList.length > 0 && (
@@ -396,7 +399,7 @@ const PromptLangsmithHubDialog = ({ promptType, show, onCancel, onSubmit }) => {
                                         <Card variant='outlined' sx={{ height: 470, overflow: 'auto', borderRadius: 0 }}>
                                             <CardContent sx={{ p: 1 }}>
                                                 <Typography sx={{ fontSize: 10 }} color='text.secondary' gutterBottom>
-                                                    Available Prompts
+                                                    <FormattedMessage id='available.prompts' defaultMessage='Available Prompts' />
                                                 </Typography>
                                                 <List component='nav' aria-label='secondary mailbox folder'>
                                                     {availablePrompNameList.map((item, index) => (
@@ -446,7 +449,9 @@ const PromptLangsmithHubDialog = ({ promptType, show, onCancel, onSubmit }) => {
                                                         expandIcon={<ExpandMoreIcon />}
                                                         id='panel2d-header'
                                                     >
-                                                        <Typography>Prompt</Typography>
+                                                        <Typography>
+                                                            <FormattedMessage id='prompt' defaultMessage='Prompt' />
+                                                        </Typography>
                                                     </AccordionSummary>
                                                     <AccordionDetails>
                                                         <Typography sx={{ wordWrap: 'true' }} color='text.primary'>
@@ -482,7 +487,9 @@ const PromptLangsmithHubDialog = ({ promptType, show, onCancel, onSubmit }) => {
                                                         expandIcon={<ExpandMoreIcon />}
                                                         id='panel1d-header'
                                                     >
-                                                        <Typography>Description</Typography>
+                                                        <Typography>
+                                                            <FormattedMessage id='description' defaultMessage='Description' />
+                                                        </Typography>
                                                     </AccordionSummary>
                                                     <AccordionDetails>
                                                         <Typography
@@ -502,7 +509,9 @@ const PromptLangsmithHubDialog = ({ promptType, show, onCancel, onSubmit }) => {
                                                         aria-controls='panel3d-content'
                                                         id='panel3d-header'
                                                     >
-                                                        <Typography>Readme</Typography>
+                                                        <Typography>
+                                                            <FormattedMessage id='readme' defaultMessage='Readme' />
+                                                        </Typography>
                                                     </AccordionSummary>
                                                     <AccordionDetails>
                                                         <div
@@ -567,7 +576,7 @@ const PromptLangsmithHubDialog = ({ promptType, show, onCancel, onSubmit }) => {
                         onClick={() => onSubmit(selectedPrompt.detailed)}
                         variant='contained'
                     >
-                        Load
+                        <FormattedMessage id='load' defaultMessage='Load' />
                     </StyledButton>
                 </DialogActions>
             )}

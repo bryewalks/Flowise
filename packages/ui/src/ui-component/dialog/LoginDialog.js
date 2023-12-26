@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom'
 import { useState } from 'react'
+import { useIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import { Dialog, DialogActions, DialogContent, Typography, DialogTitle } from '@mui/material'
@@ -7,15 +8,16 @@ import { StyledButton } from 'ui-component/button/StyledButton'
 import { Input } from 'ui-component/input/Input'
 
 const LoginDialog = ({ show, dialogProps, onConfirm }) => {
+    const intl = useIntl()
     const portalElement = document.getElementById('portal')
     const usernameInput = {
-        label: 'Username',
+        label: intl.formatMessage({ id: 'username', defaultMessage: 'Username' }),
         name: 'username',
         type: 'string',
         placeholder: 'john doe'
     }
     const passwordInput = {
-        label: 'Password',
+        label: intl.formatMessage({ id: 'password', defaultMessage: 'Password' }),
         name: 'password',
         type: 'password'
     }

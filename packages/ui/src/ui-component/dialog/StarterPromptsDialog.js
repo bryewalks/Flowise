@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom'
 import { useDispatch } from 'react-redux'
 import { useState, useEffect } from 'react'
+import { FormattedMessage, useIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 import { enqueueSnackbar as enqueueSnackbarAction, closeSnackbar as closeSnackbarAction, SET_CHATFLOW } from 'store/actions'
 
@@ -32,6 +33,7 @@ import chatflowsApi from 'api/chatflows'
 const StarterPromptsDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
     const portalElement = document.getElementById('portal')
     const dispatch = useDispatch()
+    const intl = useIntl()
 
     useNotifier()
 
@@ -80,7 +82,10 @@ const StarterPromptsDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             })
             if (saveResp.data) {
                 enqueueSnackbar({
-                    message: 'Conversation Starter Prompts Saved',
+                    message: intl.formatMessage({
+                        id: 'starter.prompts.dialog.saved',
+                        defaultMessage: 'Conversation Starter Prompts Saved'
+                    }),
                     options: {
                         key: new Date().getTime() + Math.random(),
                         variant: 'success',
@@ -97,7 +102,13 @@ const StarterPromptsDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
         } catch (error) {
             const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
             enqueueSnackbar({
-                message: `Failed to save Conversation Starter Prompts: ${errorData}`,
+                message: intl.formatMessage(
+                    {
+                        id: 'starter.prompts.dialog.failed',
+                        defaultMessage: 'Failed to save Conversation Starter Prompts: {errorData}'
+                    },
+                    { errorData }
+                ),
                 options: {
                     key: new Date().getTime() + Math.random(),
                     variant: 'error',
@@ -160,7 +171,8 @@ const StarterPromptsDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             aria-describedby='alert-dialog-description'
         >
             <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
-                {dialogProps.title || 'Conversation Starter Prompts'}
+                {dialogProps.title ||
+                    intl.formatMessage({ id: 'starter.prompts.dialog.title', defaultMessage: 'Conversation Starter Prompts' })}
             </DialogTitle>
             <DialogContent>
                 <div
@@ -181,7 +193,10 @@ const StarterPromptsDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                     >
                         <IconBulb size={30} color='#2d6a4f' />
                         <span style={{ color: '#2d6a4f', marginLeft: 10, fontWeight: 500 }}>
-                            Starter prompts will only be shown when there is no messages on the chat
+                            <FormattedMessage
+                                id='starter.prompts.dialog.description'
+                                defaultMessage='Starter prompts will only be shown when there is no messages on the chat'
+                            />
                         </span>
                     </div>
                 </div>
@@ -233,7 +248,7 @@ const StarterPromptsDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             <DialogActions>
                 <Button onClick={onCancel}>Cancel</Button>
                 <StyledButton variant='contained' onClick={onSave}>
-                    Save
+                    <FormattedMessage id='save' defaultMessage='Save' />
                 </StyledButton>
             </DialogActions>
         </Dialog>

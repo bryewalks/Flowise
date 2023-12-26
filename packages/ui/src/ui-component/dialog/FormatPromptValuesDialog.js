@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import { Dialog, DialogContent, DialogTitle } from '@mui/material'
 import PerfectScrollbar from 'react-perfect-scrollbar'
@@ -28,7 +29,7 @@ const FormatPromptValuesDialog = ({ show, dialogProps, onChange, onCancel }) => 
             aria-describedby='alert-dialog-description'
         >
             <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
-                Format Prompt Values
+                <FormattedMessage id='format.prompt.values.dialog.title' defaultMessage='Format Prompt Values' />
             </DialogTitle>
             <DialogContent>
                 <PerfectScrollbar

@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
@@ -141,7 +142,7 @@ const ExpandTextDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                             executeCustomFunctionNodeApi.request({ javascriptFunction: inputValue })
                         }}
                     >
-                        Execute
+                        <FormattedMessage id='execute' defaultMessage='Execute' />
                     </LoadingButton>
                 )}
                 {codeExecutedResult && (

@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from 'react'
 import { useSelector } from 'react-redux'
+import { useIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 
@@ -58,13 +59,16 @@ export const AsyncDropdown = ({
     disableClearable = false
 }) => {
     const customization = useSelector((state) => state.customization)
+    const intl = useIntl()
 
     const [open, setOpen] = useState(false)
     const [options, setOptions] = useState([])
     const [loading, setLoading] = useState(false)
     const findMatchingOptions = (options = [], value) => options.find((option) => option.name === value)
     const getDefaultOptionValue = () => ''
-    const addNewOption = [{ label: '- Create New -', name: '-create-' }]
+    const addNewOption = [
+        { label: intl.formatMessage({ id: 'dropdown.option.create.new', defaultMessage: '- Create New -' }), name: '-create-' }
+    ]
     let [internalValue, setInternalValue] = useState(value ?? 'choose an option')
 
     const fetchCredentialList = async () => {

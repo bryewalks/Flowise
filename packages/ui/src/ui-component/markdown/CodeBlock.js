@@ -1,5 +1,6 @@
 import { IconClipboard, IconDownload } from '@tabler/icons'
 import { memo, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import PropTypes from 'prop-types'
@@ -98,7 +99,7 @@ export const CodeBlock = memo(({ language, chatflowid, isDialog, value }) => {
                         }}
                     >
                         <Typography variant='h6' sx={{ pl: 1, pr: 1, color: 'white', background: theme.palette.success.dark }}>
-                            Copied!
+                            <FormattedMessage id='markdown.copied' defaultMessage='Copied!' />
                         </Typography>
                     </Popover>
                     <IconButton size='small' title='Download' color='primary' onClick={downloadAsFile}>

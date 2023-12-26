@@ -1,11 +1,13 @@
 import { createPortal } from 'react-dom'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 import { Dialog, DialogContent, DialogTitle } from '@mui/material'
 import ReactJson from 'flowise-react-json-view'
 
 const SourceDocDialog = ({ show, dialogProps, onCancel }) => {
+    const intl = useIntl()
     const portalElement = document.getElementById('portal')
     const customization = useSelector((state) => state.customization)
 
@@ -29,7 +31,7 @@ const SourceDocDialog = ({ show, dialogProps, onCancel }) => {
             aria-describedby='alert-dialog-description'
         >
             <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
-                {dialogProps.title ?? 'Source Documents'}
+                {dialogProps.title ?? intl.formatMessage({ id: 'source.doc.dialog.title', defaultMessage: 'Source Documents' })}
             </DialogTitle>
             <DialogContent>
                 <ReactJson

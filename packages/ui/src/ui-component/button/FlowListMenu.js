@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useIntl, FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import { styled, alpha } from '@mui/material/styles'
@@ -70,6 +71,7 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
     const { confirm } = useConfirm()
     const dispatch = useDispatch()
     const updateChatflowApi = useApi(chatflowsApi.updateChatflow)
+    const intl = useIntl()
 
     useNotifier()
     const enqueueSnackbar = (...args) => dispatch(enqueueSnackbarAction(...args))
@@ -99,7 +101,7 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
     const handleFlowStarterPrompts = () => {
         setAnchorEl(null)
         setConversationStartersDialogProps({
-            title: 'Starter Prompts - ' + chatflow.name,
+            title: intl.formatMessage({ id: 'starter.prompts.name', defaultMessage: 'Starter Prompts - {name}' }, { name: chatflow.name }),
             chatflow: chatflow
         })
         setConversationStartersDialogOpen(true)
@@ -178,10 +180,13 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
     const handleDelete = async () => {
         setAnchorEl(null)
         const confirmPayload = {
-            title: `Delete`,
-            description: `Delete chatflow ${chatflow.name}?`,
-            confirmButtonName: 'Delete',
-            cancelButtonName: 'Cancel'
+            title: intl.formatMessage({ id: 'delete', defaultMessage: 'Delete' }),
+            description: intl.formatMessage(
+                { id: 'delete.chatflow.name', defaultMessage: 'Delete chatflow {name}' },
+                { name: chatflow.name }
+            ),
+            confirmButtonName: intl.formatMessage({ id: 'delete', defaultMessage: 'Delete' }),
+            cancelButtonName: intl.formatMessage({ id: 'cancel', defaultMessage: 'Cancel' })
         }
         const isConfirmed = await confirm(confirmPayload)
 
@@ -247,7 +252,7 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
             >
-                Options
+                <FormattedMessage id='options' defaultMessage='Options' />
             </Button>
             <StyledMenu
                 id='demo-customized-menu'
@@ -260,37 +265,37 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
             >
                 <MenuItem onClick={handleFlowRename} disableRipple>
                     <EditIcon />
-                    Rename
+                    <FormattedMessage id='rename' defaultMessage='Rename' />
                 </MenuItem>
                 <MenuItem onClick={handleDuplicate} disableRipple>
                     <FileCopyIcon />
-                    Duplicate
+                    <FormattedMessage id='duplicate' defaultMessage='Duplicate' />
                 </MenuItem>
                 <MenuItem onClick={handleExport} disableRipple>
                     <FileDownloadIcon />
-                    Export
+                    <FormattedMessage id='export' defaultMessage='Export' />
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem onClick={handleFlowStarterPrompts} disableRipple>
                     <PictureInPictureAltIcon />
-                    Starter Prompts
+                    <FormattedMessage id='starter.prompts' defaultMessage='Starter Prompts' />
                 </MenuItem>
                 <MenuItem onClick={handleFlowCategory} disableRipple>
                     <FileCategoryIcon />
-                    Update Category
+                    <FormattedMessage id='update.category' defaultMessage='Update Category' />
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem onClick={handleDelete} disableRipple>
                     <FileDeleteIcon />
-                    Delete
+                    <FormattedMessage id='delete' defaultMessage='Delete' />
                 </MenuItem>
             </StyledMenu>
             <SaveChatflowDialog
                 show={flowDialogOpen}
                 dialogProps={{
-                    title: `Rename Chatflow`,
-                    confirmButtonName: 'Rename',
-                    cancelButtonName: 'Cancel'
+                    title: intl.formatMessage({ id: 'rename.chatflwo', defaultMessage: 'Rename Chatflow' }),
+                    confirmButtonName: intl.formatMessage({ id: 'rename', defaultMessage: 'Rename' }),
+                    cancelButtonName: intl.formatMessage({ id: 'cancel', defaultMessage: 'Cancel' })
                 }}
                 onCancel={() => setFlowDialogOpen(false)}
                 onConfirm={saveFlowRename}

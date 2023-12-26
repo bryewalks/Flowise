@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { FormattedMessage, useIntl } from 'react-intl'
 import Dialog from '@mui/material/Dialog'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -8,6 +9,7 @@ import PropTypes from 'prop-types'
 import { DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
 
 const TagDialog = ({ isOpen, dialogProps, onClose, onSubmit }) => {
+    const intl = useIntl()
     const [inputValue, setInputValue] = useState('')
     const [categoryValues, setCategoryValues] = useState([])
 
@@ -58,7 +60,7 @@ const TagDialog = ({ isOpen, dialogProps, onClose, onSubmit }) => {
             aria-describedby='category-dialog-description'
         >
             <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
-                Set Chatflow Category Tags
+                <FormattedMessage id='tag.dialog.title' defaultMessage='Set Chatflow Category Tags' />
             </DialogTitle>
             <DialogContent>
                 <Box>
@@ -81,11 +83,14 @@ const TagDialog = ({ isOpen, dialogProps, onClose, onSubmit }) => {
                             value={inputValue}
                             onChange={handleInputChange}
                             onKeyDown={handleInputKeyDown}
-                            label='Add a tag'
+                            label={intl.formatMessage({ id: 'tag.dialog.add', defaultMessage: 'Add a tag' })}
                             variant='outlined'
                         />
                         <Typography variant='body2' sx={{ fontStyle: 'italic', mt: 1 }} color='text.secondary'>
-                            Enter a tag and press enter to add it to the list. You can add as many tags as you want.
+                            <FormattedMessage
+                                id='tag.dialog.description'
+                                defaultMessage='Enter a tag and press enter to add it to the list. You can add as many tags as you want.'
+                            />
                         </Typography>
                     </form>
                 </Box>
@@ -93,7 +98,7 @@ const TagDialog = ({ isOpen, dialogProps, onClose, onSubmit }) => {
             <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
                 <Button variant='contained' onClick={handleSubmit}>
-                    Submit
+                    <FormattedMessage id='submit' defaultMessage='Submit' />
                 </Button>
             </DialogActions>
         </Dialog>

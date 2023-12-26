@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom'
 import { useDispatch } from 'react-redux'
 import { useState, useEffect } from 'react'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import { enqueueSnackbar as enqueueSnackbarAction, closeSnackbar as closeSnackbarAction, SET_CHATFLOW } from 'store/actions'
 
@@ -32,6 +33,7 @@ import { StyledButton } from 'ui-component/button/StyledButton'
 import langsmithPNG from 'assets/images/langchain.png'
 import langfuseSVG from 'assets/images/langfuse.svg'
 import llmonitorSVG from 'assets/images/lunary.svg'
+import { intl } from 'lang/utils/intl'
 
 // store
 import { HIDE_CANVAS_DIALOG, SHOW_CANVAS_DIALOG } from 'store/actions'
@@ -48,21 +50,24 @@ const analyticProviders = [
         url: 'https://smith.langchain.com',
         inputs: [
             {
-                label: 'Connect Credential',
+                label: intl.formatMessage({ id: 'connect.credential', defaultMessage: 'Connect Credential' }),
                 name: 'credential',
                 type: 'credential',
                 credentialNames: ['langsmithApi']
             },
             {
-                label: 'Project Name',
+                label: intl.formatMessage({ id: 'project.name', defaultMessage: 'Project Name' }),
                 name: 'projectName',
                 type: 'string',
                 optional: true,
-                description: 'If not provided, default will be used',
-                placeholder: 'default'
+                description: intl.formatMessage({
+                    id: 'project.name.description',
+                    defaultMessage: 'If not provided, default will be used'
+                }),
+                placeholder: intl.formatMessage({ id: 'project.name.default', defaultMessage: 'default' })
             },
             {
-                label: 'On/Off',
+                label: intl.formatMessage({ id: 'on.off', defaultMessage: 'On/Off' }),
                 name: 'status',
                 type: 'boolean',
                 optional: true
@@ -76,20 +81,23 @@ const analyticProviders = [
         url: 'https://langfuse.com',
         inputs: [
             {
-                label: 'Connect Credential',
+                label: intl.formatMessage({ id: 'connect.credential', defaultMessage: 'Connect Credential' }),
                 name: 'credential',
                 type: 'credential',
                 credentialNames: ['langfuseApi']
             },
             {
-                label: 'Release',
+                label: intl.formatMessage({ id: 'release', defaultMessage: 'Release' }),
                 name: 'release',
                 type: 'string',
                 optional: true,
-                description: 'The release number/hash of the application to provide analytics grouped by release'
+                description: intl.formatMessage({
+                    id: 'release.description',
+                    defaultMessage: 'The release number/hash of the application to provide analytics grouped by release'
+                })
             },
             {
-                label: 'On/Off',
+                label: intl.formatMessage({ id: 'on.off', defaultMessage: 'On/Off' }),
                 name: 'status',
                 type: 'boolean',
                 optional: true
@@ -103,13 +111,13 @@ const analyticProviders = [
         url: 'https://llmonitor.com',
         inputs: [
             {
-                label: 'Connect Credential',
+                label: intl.formatMessage({ id: 'connect.credential', defaultMessage: 'Connect Credential' }),
                 name: 'credential',
                 type: 'credential',
                 credentialNames: ['llmonitorApi']
             },
             {
-                label: 'On/Off',
+                label: intl.formatMessage({ id: 'on.off', defaultMessage: 'On/Off' }),
                 name: 'status',
                 type: 'boolean',
                 optional: true
@@ -137,7 +145,7 @@ const AnalyseFlowDialog = ({ show, dialogProps, onCancel }) => {
             })
             if (saveResp.data) {
                 enqueueSnackbar({
-                    message: 'Analytic Configuration Saved',
+                    message: intl.formatMessage({ id: 'analytic.configuration.saved', defaultMessage: 'Analytic Configuration Saved' }),
                     options: {
                         key: new Date().getTime() + Math.random(),
                         variant: 'success',
@@ -154,7 +162,13 @@ const AnalyseFlowDialog = ({ show, dialogProps, onCancel }) => {
         } catch (error) {
             const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
             enqueueSnackbar({
-                message: `Failed to save Analytic Configuration: ${errorData}`,
+                message: intl.formatMessage(
+                    {
+                        id: 'analytic.configuration.failed',
+                        defaultMessage: 'Failed to save Analytic Configuration: {errorData}'
+                    },
+                    { errorData }
+                ),
                 options: {
                     key: new Date().getTime() + Math.random(),
                     variant: 'error',
@@ -219,7 +233,7 @@ const AnalyseFlowDialog = ({ show, dialogProps, onCancel }) => {
             aria-describedby='alert-dialog-description'
         >
             <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
-                Analyse Chatflow
+                <FormattedMessage id='analyse.chatflow' defaultMessage='Analyse Chatflow' />
             </DialogTitle>
             <DialogContent>
                 {analyticProviders.map((provider, index) => (
@@ -340,7 +354,7 @@ const AnalyseFlowDialog = ({ show, dialogProps, onCancel }) => {
             </DialogContent>
             <DialogActions>
                 <StyledButton variant='contained' onClick={onSave}>
-                    Save
+                    <FormattedMessage id='save' defaultMessage='Save' />
                 </StyledButton>
             </DialogActions>
         </Dialog>

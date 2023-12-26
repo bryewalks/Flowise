@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
@@ -46,19 +47,19 @@ export const FlowListTable = ({ data, images, filterFunction, updateFlowsApi }) 
                     <TableHead>
                         <TableRow sx={{ marginTop: '10', backgroundColor: 'primary' }}>
                             <StyledTableCell component='th' scope='row' style={{ width: '20%' }} key='0'>
-                                Name
+                                <FormattedMessage id='flowlist.table.header.name' defaultMessage='Name' />
                             </StyledTableCell>
                             <StyledTableCell style={{ width: '25%' }} key='1'>
-                                Category
+                                <FormattedMessage id='flowlist.table.header.category' defaultMessage='Category' />
                             </StyledTableCell>
                             <StyledTableCell style={{ width: '30%' }} key='2'>
-                                Nodes
+                                <FormattedMessage id='flowlist.table.header.nodes' defaultMessage='Nodes' />
                             </StyledTableCell>
                             <StyledTableCell style={{ width: '15%' }} key='3'>
-                                Last Modified Date
+                                <FormattedMessage id='flowlist.table.header.last.modified' defaultMessage='Last Modified Date' />
                             </StyledTableCell>
                             <StyledTableCell style={{ width: '10%' }} key='4'>
-                                Actions
+                                <FormattedMessage id='flowlist.table.header.actions' defaultMessage='Actions' />
                             </StyledTableCell>
                         </TableRow>
                     </TableHead>
